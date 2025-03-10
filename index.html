@@ -3,1130 +3,1058 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional CV Builder</title>
-    
+    <title>CV Builder</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome for icons -->
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+   
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --accent-color: #e74c3c;
-        }
-        
         body {
-            background-color: #f5f5f5;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            /* Prevent printing via browser print dialog */
+            -webkit-print-color-adjust: exact !important;
         }
-        
-        .cv-builder-container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .cv-section {
+            margin-bottom: 20px;
             padding: 20px;
-        }
-        
-        .form-section {
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin-bottom: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
-        .form-section h3 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--secondary-color);
+        .section-title {
+            border-bottom: 2px solid #007bff;
             padding-bottom: 10px;
             margin-bottom: 20px;
+            color: #343a40;
         }
-        
-        .cv-preview {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            min-height: 600px;
-        }
-        
-        .cv-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        
-        .cv-header h1 {
-            margin: 0;
-            font-weight: 700;
-        }
-        
-        .cv-section {
-            margin-bottom: 25px;
-        }
-        
-        .cv-section h3 {
-            color: var(--secondary-color);
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .experience-item, .education-item, .skill-item {
-            margin-bottom: 15px;
-            position: relative;
-        }
-        
-        .timeline-item {
-            padding-left: 20px;
-            border-left: 2px solid var(--secondary-color);
-            position: relative;
-            padding-bottom: 15px;
-        }
-        
-        .timeline-item:before {
-            content: '';
-            position: absolute;
-            left: -9px;
-            top: 0;
-            width: 16px;
-            height: 16px;
+        .profile-img-container {
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
             border-radius: 50%;
-            background-color: var(--secondary-color);
-        }
-        
-        .year {
-            color: var(--secondary-color);
-            font-weight: 600;
-        }
-        
-        .skill-bar {
-            height: 10px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-        }
-        
-        .skill-progress {
-            height: 100%;
-            border-radius: 5px;
-            background-color: var(--secondary-color);
-        }
-        
-        .contact-info {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-        
-        .contact-item {
-            margin-right: 20px;
-            margin-bottom: 10px;
+            margin: 0 auto;
+            position: relative;
+            border: 2px dashed #ccc;
             display: flex;
             align-items: center;
-        }
-        
-        .contact-item i {
-            margin-right: 8px;
-            color: var(--secondary-color);
-        }
-        
-        .add-btn {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .add-btn:hover {
-            background-color: #2980b9;
-        }
-        
-        .remove-btn {
-            color: var(--accent-color);
-            background: none;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-        
-        .template-selector {
-            margin-bottom: 20px;
-        }
-        
-        .template-card {
-            cursor: pointer;
-            transition: transform 0.3s;
-            margin-bottom: 15px;
-            border: 2px solid transparent;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .template-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .template-card.active {
-            border: 2px solid var(--secondary-color);
-        }
-        
-        .template-name {
-            text-align: center;
-            margin-top: 10px;
-            font-weight: 600;
-        }
-        
-        .template-preview {
-            height: 150px;
+            justify-content: center;
             background-color: #f8f9fa;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
         }
-        
-        .template-preview img {
+        .profile-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
-        /* Template Styles */
-        .cv-modern .cv-header {
-            background-color: white;
-            color: var(--primary-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .upload-placeholder {
             text-align: center;
-            border-bottom: 3px solid var(--secondary-color);
+            color: #6c757d;
         }
-        
-        .cv-modern .cv-section h3 {
-            background-color: var(--light-color);
-            padding: 10px;
-            border-radius: 5px;
-            border-bottom: none;
-        }
-        
-        .cv-classic .cv-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .cv-classic .cv-header-content {
-            width: 70%;
-        }
-        
-        .cv-photo {
-            width: 150px;
-            height: 150px;
+        .upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: rgba(0,0,0,0.5);
+            color: white;
             border-radius: 50%;
-            overflow: hidden;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #e9ecef;
+            cursor: pointer;
         }
-        
-        .cv-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .add-btn {
+            margin-top: 10px;
         }
-        
-        .photo-upload-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
+        .dynamic-item {
+            border-left: 3px solid #007bff;
+            padding-left: 15px;
+            margin-bottom: 15px;
+            position: relative;
         }
-        
-        .photo-preview {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-bottom: 10px;
-            border: 3px solid var(--secondary-color);
+        .remove-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
         }
-        
-        .photo-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .cv-minimal .cv-header {
+        #cv-preview {
+            padding: 30px;
             background-color: white;
-            color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .skill-badge {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .preview-mode .form-control, 
+        .preview-mode .form-select {
+            border: none;
+            background-color: transparent;
+            pointer-events: none;
             padding: 0;
-            border-bottom: 2px solid var(--secondary-color);
         }
-        
-        .cv-minimal .cv-section h3 {
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            border-bottom: none;
-            padding-bottom: 0;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .preview-mode .form-check-input {
+            pointer-events: none;
         }
-        
-        .cv-minimal .timeline-item {
+        .preview-mode .dynamic-item {
             border-left: none;
-            padding-left: 0;
         }
-        
-        .cv-minimal .timeline-item:before {
+        .preview-mode .remove-btn,
+        .preview-mode .add-btn,
+        .preview-mode .upload-btn {
             display: none;
         }
-        
-        .btn-primary {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
+        .preview-photo {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .payment-banner {
+            background-color: #ffeeba;
+            border-left: 4px solid #ffc107;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 100px;
+            color: rgba(255, 0, 0, 0.2);
+            pointer-events: none;
+            z-index: 1000;
         }
         
-        .btn-primary:hover {
-            background-color: #2980b9;
-            border-color: #2980b9;
+        /* Print protection styles */
+        @media print {
+            body * {
+                visibility: hidden !important;
+            }
+            .no-print-allowed {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #fff;
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                visibility: visible !important;
+            }
+            .no-print-allowed-content {
+                text-align: center;
+                visibility: visible !important;
+            }
+            /* Only allow printing for premium users */
+            body.premium-user .no-print-allowed {
+                display: none;
+            }
+            body.premium-user #cv-preview, 
+            body.premium-user #cv-preview * {
+                visibility: visible !important;
+            }
+            body.premium-user #cv-preview {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+            }
         }
-
-        /* Loading indicator */
+        
+        /* Mobile improvements */
+        @media (max-width: 768px) {
+            .cv-section {
+                padding: 15px;
+            }
+            .profile-img-container {
+                width: 120px;
+                height: 120px;
+            }
+            .payment-methods {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .payment-method-btn {
+                width: 100%;
+            }
+        }
+        
+        .user-icon {
+            font-size: 19px;
+            color: rgb(91, 92, 91);
+            margin-right: 8px;
+        }
+        .skill-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .skill-item .form-control {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .language-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .language-item .form-control {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .bullet-list {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        /* Fixed loading indicator */
         .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(255, 255, 255, 0.8);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
-            display: none;
+            z-index: 9999;
         }
-        
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--light-color);
-            border-top: 5px solid var(--secondary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Print Styles */
-        @media print {
-            body {
-                background-color: white !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            .cv-builder-container, .form-section, .template-selector, .action-buttons {
-                display: none !important;
-            }
-            
-            .cv-preview {
-                box-shadow: none !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100% !important;
-            }
-            
-            .cv-container {
-                width: 100% !important;
-                height: auto !important;
-                overflow: visible !important;
-                position: relative !important;
-            }
-            
-            /* Ensure backgrounds print */
-            .cv-header, .skill-progress, .timeline-item:before {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
         }
     </style>
 </head>
 <body>
-    <div class="loading-overlay">
-        <div class="loading-spinner"></div>
+    <!-- Print protection div -->
+   
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
 
-    <div class="container-fluid cv-builder-container">
-        <div class="row mb-4">
-            <div class="col">
-                <h1 class="text-center mb-4">Msangi JR CV Builder</h1>
-                <p class="text-center">Create a Proffesional  CV in minutes and download it as a PDF!</p>
-            </div>
-        </div>
+    <div class="container py-5">
+        <h1 class="text-center mb-5"> MSANGI JR CV Builder</h1>
         
         <div class="row">
-            <!-- CV Form -->
-            <div class="col-lg-6">
-                <div class="form-section">
-                    <h3><i class="fas fa-palette me-2"></i>Choose Template</h3>
-                    <div class="row template-selector">
-                        <div class="col-md-4">
-                            <div class="template-card active" data-template="classic">
-                                <div class="template-preview">
-                                    <div style="width: 100%; height: 100%; display: flex; flex-direction: column;">
-                                        <div style="background-color: #2c3e50; height: 40%; width: 100%;"></div>
-                                        <div style="padding: 10px; display: flex; flex-direction: column; height: 60%;">
-                                            <div style="width: 80%; height: 10px; background-color: #3498db; margin-bottom: 5px;"></div>
-                                            <div style="width: 90%; height: 5px; background-color: #e9ecef; margin-bottom: 10px;"></div>
-                                            <div style="width: 60%; height: 5px; background-color: #e9ecef; margin-bottom: 5px;"></div>
-                                            <div style="width: 70%; height: 5px; background-color: #e9ecef;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="template-name">Classic</div>
-                            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="cv-section">
+                    <h3 class="section-title">Personal Details</h3>
+                    <div class="profile-img-container mb-3" id="profile-img-container">
+                        <div class="upload-placeholder" id="upload-placeholder">
+                            <i class="fas fa-user fa-3x mb-2"></i>
+                            <p>Click to upload photo</p>
                         </div>
-                        <div class="col-md-4">
-                            <div class="template-card" data-template="modern">
-                                <div class="template-preview">
-                                    <div style="width: 100%; height: 100%; display: flex; flex-direction: column;">
-                                        <div style="height: 40%; width: 100%; display: flex; justify-content: center; align-items: center; border-bottom: 3px solid #3498db;">
-                                            <div style="width: 40px; height: 40px; border-radius: 20px; background-color: #e9ecef;"></div>
-                                        </div>
-                                        <div style="padding: 10px; display: flex; flex-direction: column; height: 60%;">
-                                            <div style="width: 40%; height: 15px; background-color: #e9ecef; margin-bottom: 10px;"></div>
-                                            <div style="width: 90%; height: 5px; background-color: #e9ecef; margin-bottom: 5px;"></div>
-                                            <div style="width: 80%; height: 5px; background-color: #e9ecef;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="template-name">Modern</div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="template-card" data-template="minimal">
-                                <div class="template-preview">
-                                    <div style="width: 100%; height: 100%; display: flex; flex-direction: column; padding: 10px;">
-                                        <div style="height: 30%; width: 100%; border-bottom: 2px solid #3498db; display: flex; flex-direction: column; justify-content: center;">
-                                            <div style="width: 60%; height: 10px; background-color: #2c3e50; margin-bottom: 5px;"></div>
-                                            <div style="width: 40%; height: 5px; background-color: #e9ecef;"></div>
-                                        </div>
-                                        <div style="padding: 10px 0; display: flex; flex-direction: column; height: 70%;">
-                                            <div style="width: 30%; height: 8px; background-color: #2c3e50; margin-bottom: 10px; text-transform: uppercase;"></div>
-                                            <div style="width: 90%; height: 5px; background-color: #e9ecef; margin-bottom: 5px;"></div>
-                                            <div style="width: 80%; height: 5px; background-color: #e9ecef;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="template-name">Minimal</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-section">
-                    <h3><i class="fas fa-user me-2"></i>Personal Information</h3>
-                    
-                    <div class="photo-upload-container">
-                        <div class="photo-preview">
-                            <img id="preview-photo-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Ccircle cx='75' cy='75' r='75' fill='%23e9ecef'/%3E%3Cpath d='M75 75 C88 75, 95 62, 95 50 C95 38, 88 25, 75 25 C62 25, 55 38, 55 50 C55 62, 62 75, 75 75 Z M50 115 C50 97, 61 85, 75 85 C89 85, 100 97, 100 115' stroke='%23b0b0b0' stroke-width='6' fill='none'/%3E%3C/svg%3E" alt="Profile Photo">
-                        </div>
-                        <div>
-                            <label for="photo-upload" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-upload me-1"></i> Upload Photo
-                            </label>
-                            <input type="file" id="photo-upload" accept="image/*" style="display:none;">
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="fullName" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="fullName" placeholder="Julius Richard Msangi">
+                        <img id="profile-img" class="profile-img" style="display: none;">
+                        <label for="photo-upload" class="upload-btn">
+                            <i class="fas fa-camera"></i>
+                        </label>
+                        <input type="file" id="photo-upload" accept="image/*" style="display: none;">
                     </div>
                     <div class="mb-3">
-                        <label for="jobTitle" class="form-label">Job Title</label>
-                        <input type="text" class="form-control" id="jobTitle" placeholder="Web Developer">
+                        <label for="full-name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="full-name" placeholder="John Doe">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Gender" class="form-label">Gender</label>
+                        <input type="text" class="form-control" id="gender" placeholder="Male/ Female">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nationality" class="form-label">Nationality</label>
+                        <input type="text" class="form-control" id="nationality" placeholder="Natioanlity">
+                    </div>
+                    <div class="mb-3">
+                        <label for="job-title" class="form-label">Job Title</label>
+                        <input type="text" class="form-control" id="job-title" placeholder="Your proffession">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="msangijulius19@gmail.com">
+                        <input type="email" class="form-control" id="email" placeholder="msangi@example.com">
                     </div>
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone</label>
                         <input type="tel" class="form-control" id="phone" placeholder="+255 710 989 258">
                     </div>
                     <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control" id="location" placeholder="Tanga, Tanzania">
-                    </div>
-                    <div class="mb-3">
-                        <label for="website" class="form-label">Website/LinkedIn (Optional)</label>
-                        <input type="url" class="form-control" id="website" placeholder="https://linkedin.com/in/">
-                    </div>
-                    <div class="mb-3">
-                        <label for="summary" class="form-label">Professional Summary</label>
-                        <textarea class="form-control" id="summary" rows="4" placeholder="Experienced software developer with 5+ years of experience in web development..."></textarea>
+                        <label for="address" class="form-label">Address</label>
+                        <textarea class="form-control" id="address" rows="2" placeholder="123 Main St, City, Country"></textarea>
                     </div>
                 </div>
                 
-                <div class="form-section">
-                    <h3><i class="fas fa-briefcase me-2"></i>Work Experience</h3>
-                    <div id="experience-items">
-                        <div class="experience-item">
-                            <div class="mb-3">
-                                <label class="form-label">Job Title</label>
-                                <input type="text" class="form-control job-title" placeholder="Senior Developer">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Company</label>
-                                <input type="text" class="form-control company" placeholder="Tech Solutions Inc.">
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <label class="form-label">Start Date</label>
-                                    <input type="text" class="form-control start-date" placeholder="Jan 2020">
-                                </div>
-                                <div class="col">
-                                    <label class="form-label">End Date</label>
-                                    <input type="text" class="form-control end-date" placeholder="Present">
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Description</label>
-                                <textarea class="form-control job-description" rows="3" placeholder="• Led development of a web application that increased user engagement by 40%
-• Collaborated with cross-functional teams to implement new features"></textarea>
-                            </div>
-                            <button type="button" class="remove-btn"><i class="fas fa-trash"></i></button>
-                        </div>
+                <div class="cv-section">
+                    <h3 class="section-title">Skills</h3>
+                    <div id="skills-container">
                     </div>
-                    <button type="button" class="btn add-btn" id="add-experience">
-                        <i class="fas fa-plus me-1"></i> Add Experience
+                    <button type="button" class="btn btn-primary btn-sm add-btn" id="add-skill">
+                        <i class="fas fa-plus"></i> Add Skill
                     </button>
                 </div>
                 
-                <div class="form-section">
-                    <h3><i class="fas fa-graduation-cap me-2"></i>Education</h3>
-                    <div id="education-items">
-                        <div class="education-item">
-                            <div class="mb-3">
-                                <label class="form-label">Degree</label>
-                                <input type="text" class="form-control degree" placeholder="Bachelor Degree">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Institution</label>
-                                <input type="text" class="form-control institution" placeholder="University of DODOMA">
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <label class="form-label">Start Date</label>
-                                    <input type="text" class="form-control edu-start-date" placeholder="Sep 2014">
-                                </div>
-                                <div class="col">
-                                    <label class="form-label">End Date</label>
-                                    <input type="text" class="form-control edu-end-date" placeholder="Jun 2018">
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Description (Optional)</label>
-                                <textarea class="form-control edu-description" rows="2" placeholder="Graduated with honors. Relevant coursework included..."></textarea>
-                            </div>
-                            <button type="button" class="remove-btn"><i class="fas fa-trash"></i></button>
-                        </div>
+                <div class="cv-section">
+                    <h3 class="section-title">Languages</h3>
+                    <div id="languages-container">
                     </div>
-                    <button type="button" class="btn add-btn" id="add-education">
-                        <i class="fas fa-plus me-1"></i> Add Education
-                    </button>
-                </div>
-                
-                <div class="form-section">
-                    <h3><i class="fas fa-cogs me-2"></i>Skills</h3>
-                    <div id="skill-items">
-                        <div class="skill-item">
-                            <div class="row mb-3">
-                                <div class="col-8">
-                                    <label class="form-label">Skill</label>
-                                    <input type="text" class="form-control skill-name" placeholder="Python">
-                                </div>
-                                <div class="col-4">
-                                    <label class="form-label">Level (1-5)</label>
-                                    <input type="number" class="form-control skill-level" min="1" max="5" value="4">
-                                </div>
-                            </div>
-                            <button type="button" class="remove-btn"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                    <button type="button" class="btn add-btn" id="add-skill">
-                        <i class="fas fa-plus me-1"></i> Add Skill
-                    </button>
-                </div>
-                
-                <div class="action-buttons text-center mb-4">
-                    <button class="btn btn-primary btn-lg me-2" id="download-pdf">
-                        <i class="fas fa-download me-1"></i> Download PDF
-                    </button>
-                    <button class="btn btn-secondary btn-lg" id="preview-pdf">
-                        <i class="fas fa-print me-1"></i> Print Preview
+                    <button type="button" class="btn btn-primary btn-sm add-btn" id="add-language">
+                        <i class="fas fa-plus"></i> Add Language
                     </button>
                 </div>
             </div>
             
-            <!-- CV Preview -->
-            <div class="col-lg-6">
-                <div class="cv-preview">
-                    <div class="cv-container cv-classic">
-                        <div class="cv-header">
-                            <div class="cv-header-content">
-                                <h1 id="preview-name">Your Name</h1>
-                                <p id="preview-title" class="fs-5 mb-2">Your Job Title</p>
-                                <div class="contact-info">
-                                    <div class="contact-item">
-                                        <i class="fas fa-envelope"></i>
-                                        <span id="preview-email">email@example.com</span>
-                                    </div>
-                                    <div class="contact-item">
-                                        <i class="fas fa-phone"></i>
-                                        <span id="preview-phone">+123 456 7890</span>
-                                    </div>
-                                    <div class="contact-item">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <span id="preview-location">City, Country</span>
-                                    </div>
-                                    <div class="contact-item" id="website-container" style="display: none;">
-                                        <i class="fas fa-globe"></i>
-                                        <span id="preview-website">yourdomain.com</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="cv-photo">
-                                <img id="cv-photo-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Ccircle cx='75' cy='75' r='75' fill='%23e9ecef'/%3E%3Cpath d='M75 75 C88 75, 95 62, 95 50 C95 38, 88 25, 75 25 C62 25, 55 38, 55 50 C55 62, 62 75, 75 75 Z M50 115 C50 97, 61 85, 75 85 C89 85, 100 97, 100 115' stroke='%23b0b0b0' stroke-width='6' fill='none'/%3E%3C/svg%3E" alt="Profile Photo">
-                            </div>
+            <div class="col-lg-8">
+                <div class="cv-section">
+                    <h3 class="section-title">Work Experience</h3>
+                    <div id="experience-container"></div>
+                    <button type="button" class="btn btn-primary btn-sm add-btn" id="add-experience">
+                        <i class="fas fa-plus"></i> Add Experience
+                    </button>
+                </div>
+                
+                <div class="cv-section">
+                    <h3 class="section-title">Education</h3>
+                    <div id="education-container"></div>
+                    <button type="button" class="btn btn-primary btn-sm add-btn" id="add-education">
+                        <i class="fas fa-plus"></i> Add Education
+                    </button>
+                </div>
+                
+                <div class="cv-section">
+                    <h3 class="section-title">References</h3>
+                    <div id="references-container"></div>
+                    <button type="button" class="btn btn-primary btn-sm add-btn" id="add-reference">
+                        <i class="fas fa-plus"></i> Add Reference
+                    </button>
+                </div>
+                
+                <div class="cv-section">
+                    <h3 class="section-title">Declaration</h3>
+                    <div class="mb-3">
+                        <textarea class="form-control" id="declaration" rows="3" placeholder="I hereby declare that all the information provided above is true to the best of my knowledge."></textarea>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="declaration-check">
+                        <label class="form-check-label" for="declaration-check">
+                            I confirm that all the information provided is accurate and true.
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="payment-banner" id="payment-banner">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-lock fa-2x text-warning"></i>
                         </div>
-                        
-                        <div class="cv-section">
-                            <h3>Professional Summary</h3>
-                            <p id="preview-summary">A brief summary of your professional background and career goals will appear here.</p>
+                        <div>
+                            <h5 class="mb-1">Premium Feature</h5>
+                            <p class="mb-0">Download your CV as PDF for 2,500 TSH. Pay to unlock this feature.</p>
                         </div>
-                        
-                        <div class="cv-section">
-                            <h3>Work Experience</h3>
-                            <div id="preview-experience">
-                                <div class="timeline-item">
-                                    <h4>Job Title</h4>
-                                    <p>Company | <span class="year">Start Date - End Date</span></p>
-                                    <p>Description of your responsibilities and achievements.</p>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between mt-4 mb-5">
+                    <button type="button" class="btn btn-success" id="preview-btn">
+                        <i class="fas fa-eye"></i> Preview CV
+                    </button>
+                    <button type="button" class="btn btn-primary" id="download-prompt-btn">
+                        <i class="fas fa-download"></i> Download as PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Preview Modal -->
+        <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">CV Preview</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body position-relative">
+                        <div class="watermark" id="preview-watermark">PREVIEW</div>
+                        <div id="cv-preview" class="preview-mode">
+                            <!-- Preview content will be inserted here -->
                         </div>
-                        
-                        <div class="cv-section">
-                            <h3>Education</h3>
-                            <div id="preview-education">
-                                <div class="timeline-item">
-                                    <h4>Degree</h4>
-                                    <p>Institution | <span class="year">Start Date - End Date</span></p>
-                                    <p>Additional information about your education.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="cv-section">
-                            <h3>Skills</h3>
-                            <div id="preview-skills">
-                                <div class="row">
-                                    <div class="col-4">Skill Name</div>
-                                    <div class="col-8">
-                                        <div class="skill-bar">
-                                            <div class="skill-progress" style="width: 80%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="print-btn">
+                            <i class="fas fa-print"></i> Print/Save PDF
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Payment Modal -->
+        <div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Unlock Premium Features</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-lock fa-4x text-warning mb-3"></i>
+                            <h4>Get Full Access</h4>
+                            <p class="lead">Download your CV as a high-quality PDF</p>
+                            <div class="alert alert-info">
+                                <strong>Price:</strong> 2,500 TSH
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Payment Methods:</label>
+                            <div class="d-flex justify-content-center gap-3 mb-3 payment-methods">
+                                <button class="btn btn-outline-primary payment-method-btn" id="mpesa-btn">
+                                    <i class="fas fa-mobile-alt me-2"></i>M-Pesa
+                                </button>
+                                <button class="btn btn-outline-primary payment-method-btn" id="tigo-pesa-btn">
+                                    <i class="fas fa-money-bill-wave me-2"></i>Tigo Pesa
+                                </button>
+                                <button class="btn btn-outline-primary payment-method-btn" id="card-btn">
+                                    <i class="fas fa-credit-card me-2"></i>Card
+                                </button>
+                            </div>
+                            <p class="small text-center">For demonstration purposes only. In a real app, these would connect to payment processors.</p>
+                        </div>
+                        
+                        <div class="text-center mb-3">
+                            <p>Already have a promo code?</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="promo-code" class="form-label">Enter Promo Code</label>
+                            <input type="text" class="form-control" id="promo-code" placeholder="Enter your code">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-success" id="verify-code-btn">Verify Code</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Templates (hidden) -->
+        <div id="templates" style="display: none;">
+            <!-- Experience Template -->
+            <div id="experience-template" class="dynamic-item">
+                <button type="button" class="btn btn-sm btn-danger remove-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label">Company Name</label>
+                        <input type="text" class="form-control" name="company" placeholder="Company Name">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Position</label>
+                        <input type="text" class="form-control" name="position" placeholder="Job Position">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label">Start Date</label>
+                        <input type="month" class="form-control" name="start-date">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">End Date</label>
+                        <input type="month" class="form-control" name="end-date">
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" name="current-job">
+                            <label class="form-check-label">Currently working here</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Responsibilities & Achievements</label>
+                    <textarea class="form-control" name="description" rows="3" placeholder="List your responsibilities and achievements (separate each item with a new line)"></textarea>
+                    <small class="text-muted">Type each responsibility/achievement on a new line for bullet points</small>
+                </div>
+            </div>
+            
+            <!-- Education Template -->
+            <div id="education-template" class="dynamic-item">
+                <button type="button" class="btn btn-sm btn-danger remove-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label">Institution</label>
+                        <input type="text" class="form-control" name="institution" placeholder="University/School Name">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Level of Education</label>
+                        <select class="form-select" name="education-level">
+                            <option value="" selected disabled>Select level</option>
+                            <option value="High School">High School</option>
+                            <option value="Associate's Degree">Associate's Degree</option>
+                            <option value="Bachelor's Degree">Bachelor's Degree</option>
+                            <option value="Master's Degree">Master's Degree</option>
+                            <option value="Doctorate">Doctorate</option>
+                            <option value="custom">Other (specify)</option>
+                        </select>
+                        <input type="text" class="form-control mt-2 custom-education" name="custom-education" placeholder="Specify education level" style="display: none;">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label">Start Date</label>
+                        <input type="month" class="form-control" name="edu-start-date">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Graduation Date</label>
+                        <input type="month" class="form-control" name="graduation-date">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <label class="form-label">Field of Study</label>
+                        <input type="text" class="form-control" name="field" placeholder="e.g. Computer Science">
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Achievements & Activities</label>
+                    <textarea class="form-control" name="edu-description" rows="2" placeholder="List achievements, activities, GPA, etc. (separate each item with a new line)"></textarea>
+                    <small class="text-muted">Type each achievement/activity on a new line for bullet points</small>
+                </div>
+            </div>
+            
+            <!-- Reference Template -->
+            <div id="reference-template" class="dynamic-item">
+                <button type="button" class="btn btn-sm btn-danger remove-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control" name="ref-name" placeholder="Reference Name">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Position</label>
+                        <input type="text" class="form-control" name="ref-position" placeholder="Position/Title">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label">Company</label>
+                        <input type="text" class="form-control" name="ref-company" placeholder="Company Name">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="ref-email" placeholder="email@example.com">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" class="form-control" name="ref-phone" placeholder="Phone Number">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Relationship</label>
+                        <input type="text" class="form-control" name="ref-relation" placeholder="e.g. Supervisor, Colleague">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Skill Template -->
+            <div id="skill-template" class="skill-item">
+                <input type="text" class="form-control" name="skill-name" placeholder="Add a skill">
+                <select class="form-select" name="skill-level" style="width: 150px;">
+                    <option value="Basic">Basic</option>
+                    <option value="Good" selected>Good</option>
+                    <option value="Very Good">Very Good</option>
+                    <option value="Excellent">Excellent</option>
+                </select>
+                <button type="button" class="btn btn-sm btn-danger ms-2 remove-skill-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Language Template -->
+            <div id="language-template" class="language-item">
+                <input type="text" class="form-control" name="language-name" placeholder="Add a language">
+                <select class="form-select" name="language-level" style="width: 150px;">
+                    <option value="Basic">Basic</option>
+                    <option value="Good" selected>Good</option>
+                    <option value="Very Good">Very Good</option>
+                    <option value="Excellent">Excellent</option>
+                    <option value="Native">Native</option>
+                </select>
+                <button type="button" class="btn btn-sm btn-danger ms-2 remove-language-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
     </div>
-    
-    <!-- Bootstrap Bundle with Popper -->
+
+    <!-- Bootstrap JavaScript and Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- html2pdf library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <script>
-
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Template Selector
-            const templateCards = document.querySelectorAll('.template-card');
-            const cvContainer = document.querySelector('.cv-container');
+        $(document).ready(function() {
+            // Valid promo codes - in a real app, these would be stored server-side
+            const validPromoCodes = ['CV2500', 'PREMIUM25', 'MYCV2025'];
+            let isPremiumUser = false;
             
-            templateCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    // Remove active class from all cards
-                    templateCards.forEach(c => c.classList.remove('active'));
-                    
-                    // Add active class to selected card
-                    this.classList.add('active');
-                    
-                    // Apply selected template
-                    const template = this.getAttribute('data-template');
-                    cvContainer.className = 'cv-container cv-' + template;
-                });
-            });
+            // Initialize print protection
+            initPrintProtection();
             
             // Photo upload functionality
-            const photoUpload = document.getElementById('photo-upload');
-            const previewPhotoImg = document.getElementById('preview-photo-img');
-            const cvPhotoImg = document.getElementById('cv-photo-img');
+            $('#profile-img-container').click(function() {
+                $('#photo-upload').click();
+            });
             
-            photoUpload.addEventListener('change', function(event) {
-                if (event.target.files && event.target.files[0]) {
+            $('#photo-upload').change(function(event) {
+                const file = event.target.files[0];
+                if (file) {
                     const reader = new FileReader();
-                    
                     reader.onload = function(e) {
-                        previewPhotoImg.src = e.target.result;
-                        cvPhotoImg.src = e.target.result;
+                        $('#profile-img').attr('src', e.target.result).show();
+                        $('#upload-placeholder').hide();
                     };
-                    
-                    reader.readAsDataURL(event.target.files[0]);
+                    reader.readAsDataURL(file);
                 }
             });
             
-            // Live preview updates
-            const fullName = document.getElementById('fullName');
-            const jobTitle = document.getElementById('jobTitle');
-            const email = document.getElementById('email');
-            const phone = document.getElementById('phone');
-            const location = document.getElementById('location');
-            const website = document.getElementById('website');
-            const summary = document.getElementById('summary');
-            
-            // Preview elements
-            const previewName = document.getElementById('preview-name');
-            const previewTitle = document.getElementById('preview-title');
-            const previewEmail = document.getElementById('preview-email');
-            const previewPhone = document.getElementById('preview-phone');
-            const previewLocation = document.getElementById('preview-location');
-            const previewWebsite = document.getElementById('preview-website');
-            const websiteContainer = document.getElementById('website-container');
-            const previewSummary = document.getElementById('preview-summary');
-            
-            // Update personal information in real-time
-            fullName.addEventListener('input', function() {
-                previewName.textContent = this.value || 'Your Name';
+            // Add Experience
+            $('#add-experience').click(function() {
+                const template = $('#experience-template').clone();
+                template.removeAttr('id');
+                $('#experience-container').append(template);
+                
+                // Current job checkbox logic
+                template.find('[name="current-job"]').change(function() {
+                    const endDateInput = $(this).closest('.row').find('[name="end-date"]');
+                    if ($(this).is(':checked')) {
+                        endDateInput.val('').prop('disabled', true);
+                    } else {
+                        endDateInput.prop('disabled', false);
+                    }
+                });
             });
             
-            jobTitle.addEventListener('input', function() {
-                previewTitle.textContent = this.value || 'Your Job Title';
+            // Add Education
+            $('#add-education').click(function() {
+                const template = $('#education-template').clone();
+                template.removeAttr('id');
+                $('#education-container').append(template);
+                
+                // Custom education level logic
+                template.find('[name="education-level"]').change(function() {
+                    const customInput = $(this).siblings('.custom-education');
+                    if ($(this).val() === 'custom') {
+                        customInput.show();
+                    } else {
+                        customInput.hide();
+                    }
+                });
             });
             
-            email.addEventListener('input', function() {
-                previewEmail.textContent = this.value || 'email@example.com';
+            // Add Reference
+            $('#add-reference').click(function() {
+                const template = $('#reference-template').clone();
+                template.removeAttr('id');
+                $('#references-container').append(template);
             });
             
-            phone.addEventListener('input', function() {
-                previewPhone.textContent = this.value || '+123 456 7890';
+            // Add Skill with proficiency level
+            $('#add-skill').click(function() {
+                const template = $('#skill-template').clone();
+                template.removeAttr('id');
+                $('#skills-container').append(template);
+                
+                // Remove skill
+                template.find('.remove-skill-btn').click(function() {
+                    $(this).closest('.skill-item').remove();
+                });
             });
             
-            location.addEventListener('input', function() {
-                previewLocation.textContent = this.value || 'City, Country';
+            // Add Language with proficiency level
+            $('#add-language').click(function() {
+                const template = $('#language-template').clone();
+                template.removeAttr('id');
+                $('#languages-container').append(template);
+                
+                // Remove language
+                template.find('.remove-language-btn').click(function() {
+                    $(this).closest('.language-item').remove();
+                });
             });
             
-            website.addEventListener('input', function() {
-                if (this.value) {
-                    previewWebsite.textContent = this.value;
-                    websiteContainer.style.display = 'flex';
+            // Remove dynamic item (experience, education, reference)
+            $(document).on('click', '.remove-btn', function() {
+                $(this).closest('.dynamic-item').remove();
+            });
+            
+            // Preview CV
+            $('#preview-btn').click(function() {
+                generateCVPreview();
+                const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+                previewModal.show();
+            });
+            
+            // Print CV
+            $('#print-btn').click(function() {
+                if (isPremiumUser) {
+                    $('#preview-watermark').hide();
+                    window.print();
+                    setTimeout(() => $('#preview-watermark').show(), 1000);
                 } else {
-                    websiteContainer.style.display = 'none';
+                    $('#paymentModal').modal('show');
                 }
             });
             
-            summary.addEventListener('input', function() {
-                previewSummary.textContent = this.value || 'A brief summary of your professional background and career goals will appear here.';
-            });
-            
-            // Experience section management
-            const addExperienceBtn = document.getElementById('add-experience');
-            const experienceItems = document.getElementById('experience-items');
-            const previewExperience = document.getElementById('preview-experience');
-            
-            // Add new experience item
-            addExperienceBtn.addEventListener('click', function() {
-                const newItem = document.createElement('div');
-                newItem.className = 'experience-item';
-                newItem.innerHTML = `
-                    <div class="mb-3">
-                        <label class="form-label">Job Title</label>
-                        <input type="text" class="form-control job-title" placeholder="Senior Developer">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Company</label>
-                        <input type="text" class="form-control company" placeholder="Tech Solutions Inc.">
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label class="form-label">Start Date</label>
-                            <input type="text" class="form-control start-date" placeholder="Jan 2020">
-                        </div>
-                        <div class="col">
-                            <label class="form-label">End Date</label>
-                            <input type="text" class="form-control end-date" placeholder="Present">
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Description</label>
-                        <textarea class="form-control job-description" rows="3" placeholder="• Led development of a web application that increased user engagement by 40%
-        • Collaborated with cross-functional teams to implement new features"></textarea>
-                    </div>
-                    <button type="button" class="remove-btn"><i class="fas fa-trash"></i></button>
-                `;
-                
-                experienceItems.appendChild(newItem);
-                
-                // Add event listeners to new inputs
-                addExperienceListeners(newItem);
-                
-                // Add remove button functionality
-                const removeBtn = newItem.querySelector('.remove-btn');
-                removeBtn.addEventListener('click', function() {
-                    experienceItems.removeChild(newItem);
-                    updateExperiencePreview();
-                });
-                
-                // Update preview
-                updateExperiencePreview();
-            });
-            
-            // Education section management
-            const addEducationBtn = document.getElementById('add-education');
-            const educationItems = document.getElementById('education-items');
-            const previewEducation = document.getElementById('preview-education');
-            
-            // Add new education item
-            addEducationBtn.addEventListener('click', function() {
-                const newItem = document.createElement('div');
-                newItem.className = 'education-item';
-                newItem.innerHTML = `
-                    <div class="mb-3">
-                        <label class="form-label">Degree</label>
-                        <input type="text" class="form-control degree" placeholder="Bachelor Degree">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Institution</label>
-                        <input type="text" class="form-control institution" placeholder="University of DODOMA">
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label class="form-label">Start Date</label>
-                            <input type="text" class="form-control edu-start-date" placeholder="Sep 2014">
-                        </div>
-                        <div class="col">
-                            <label class="form-label">End Date</label>
-                            <input type="text" class="form-control edu-end-date" placeholder="Jun 2018">
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Description (Optional)</label>
-                        <textarea class="form-control edu-description" rows="2" placeholder="Graduated with honors. Relevant coursework included..."></textarea>
-                    </div>
-                    <button type="button" class="remove-btn"><i class="fas fa-trash"></i></button>
-                `;
-                
-                educationItems.appendChild(newItem);
-                
-                // Add event listeners to new inputs
-                addEducationListeners(newItem);
-                
-                // Add remove button functionality
-                const removeBtn = newItem.querySelector('.remove-btn');
-                removeBtn.addEventListener('click', function() {
-                    educationItems.removeChild(newItem);
-                    updateEducationPreview();
-                });
-                
-                // Update preview
-                updateEducationPreview();
-            });
-            
-            // Skills section management
-            const addSkillBtn = document.getElementById('add-skill');
-            const skillItems = document.getElementById('skill-items');
-            const previewSkills = document.getElementById('preview-skills');
-            
-            // Add new skill item
-            addSkillBtn.addEventListener('click', function() {
-                const newItem = document.createElement('div');
-                newItem.className = 'skill-item';
-                newItem.innerHTML = `
-                    <div class="row mb-3">
-                        <div class="col-8">
-                            <label class="form-label">Skill</label>
-                            <input type="text" class="form-control skill-name" placeholder="Python">
-                        </div>
-                        <div class="col-4">
-                            <label class="form-label">Level (1-5)</label>
-                            <input type="number" class="form-control skill-level" min="1" max="5" value="4">
-                        </div>
-                    </div>
-                    <button type="button" class="remove-btn"><i class="fas fa-trash"></i></button>
-                `;
-                
-                skillItems.appendChild(newItem);
-                
-                // Add event listeners to new inputs
-                addSkillListeners(newItem);
-                
-                // Add remove button functionality
-                const removeBtn = newItem.querySelector('.remove-btn');
-                removeBtn.addEventListener('click', function() {
-                    skillItems.removeChild(newItem);
-                    updateSkillsPreview();
-                });
-                
-                // Update preview
-                updateSkillsPreview();
-            });
-            
-            // Add event listeners to initial experience items
-            document.querySelectorAll('.experience-item').forEach(item => {
-                addExperienceListeners(item);
-                
-                // Add remove button functionality
-                const removeBtn = item.querySelector('.remove-btn');
-                removeBtn.addEventListener('click', function() {
-                    experienceItems.removeChild(item);
-                    updateExperiencePreview();
-                });
-            });
-            
-            // Add event listeners to initial education items
-            document.querySelectorAll('.education-item').forEach(item => {
-                addEducationListeners(item);
-                
-                // Add remove button functionality
-                const removeBtn = item.querySelector('.remove-btn');
-                removeBtn.addEventListener('click', function() {
-                    educationItems.removeChild(item);
-                    updateEducationPreview();
-                });
-            });
-            
-            // Add event listeners to initial skill items
-            document.querySelectorAll('.skill-item').forEach(item => {
-                addSkillListeners(item);
-                
-                // Add remove button functionality
-                const removeBtn = item.querySelector('.remove-btn');
-                removeBtn.addEventListener('click', function() {
-                    skillItems.removeChild(item);
-                    updateSkillsPreview();
-                });
-            });
-            
-            // Function to add experience input listeners
-            function addExperienceListeners(item) {
-                const jobTitle = item.querySelector('.job-title');
-                const company = item.querySelector('.company');
-                const startDate = item.querySelector('.start-date');
-                const endDate = item.querySelector('.end-date');
-                const description = item.querySelector('.job-description');
-                
-                jobTitle.addEventListener('input', updateExperiencePreview);
-                company.addEventListener('input', updateExperiencePreview);
-                startDate.addEventListener('input', updateExperiencePreview);
-                endDate.addEventListener('input', updateExperiencePreview);
-                description.addEventListener('input', updateExperiencePreview);
+           // Show payment modal
+           $('#download-prompt-btn').click(function() {
+            if (isPremiumUser) {
+                // If they're a premium user, generate PDF directly
+                generatePDF();
+            } else {
+                // Show payment modal for non-premium users
+                $('#paymentModal').modal('show');
             }
-            
-            // Function to add education input listeners
-            function addEducationListeners(item) {
-                const degree = item.querySelector('.degree');
-                const institution = item.querySelector('.institution');
-                const startDate = item.querySelector('.edu-start-date');
-                const endDate = item.querySelector('.edu-end-date');
-                const description = item.querySelector('.edu-description');
-                
-                degree.addEventListener('input', updateEducationPreview);
-                institution.addEventListener('input', updateEducationPreview);
-                startDate.addEventListener('input', updateEducationPreview);
-                endDate.addEventListener('input', updateEducationPreview);
-                description.addEventListener('input', updateEducationPreview);
-            }
-            
-            // Function to add skill input listeners
-            function addSkillListeners(item) {
-                const skillName = item.querySelector('.skill-name');
-                const skillLevel = item.querySelector('.skill-level');
-                
-                skillName.addEventListener('input', updateSkillsPreview);
-                skillLevel.addEventListener('input', updateSkillsPreview);
-            }
-            
-            // Update experience preview
-            function updateExperiencePreview() {
-                let html = '';
-                document.querySelectorAll('.experience-item').forEach(item => {
-                    const jobTitle = item.querySelector('.job-title').value || 'Job Title';
-                    const company = item.querySelector('.company').value || 'Company';
-                    const startDate = item.querySelector('.start-date').value || 'Start Date';
-                    const endDate = item.querySelector('.end-date').value || 'End Date';
-                    const description = item.querySelector('.job-description').value || 'Description of your responsibilities and achievements.';
-                    
-                    html += `
-                        <div class="timeline-item">
-                            <h4>${jobTitle}</h4>
-                            <p>${company} | <span class="year">${startDate} - ${endDate}</span></p>
-                            <p>${description.replace(/\n/g, '<br>')}</p>
-                        </div>
-                    `;
-                });
-                
-                previewExperience.innerHTML = html || `
-                    <div class="timeline-item">
-                        <h4>Job Title</h4>
-                        <p>Company | <span class="year">Start Date - End Date</span></p>
-                        <p>Description of your responsibilities and achievements.</p>
-                    </div>
-                `;
-            }
-            
-            // Update education preview
-            function updateEducationPreview() {
-                let html = '';
-                document.querySelectorAll('.education-item').forEach(item => {
-                    const degree = item.querySelector('.degree').value || 'Degree';
-                    const institution = item.querySelector('.institution').value || 'Institution';
-                    const startDate = item.querySelector('.edu-start-date').value || 'Start Date';
-                    const endDate = item.querySelector('.edu-end-date').value || 'End Date';
-                    const description = item.querySelector('.edu-description').value;
-                    
-                    html += `
-                        <div class="timeline-item">
-                            <h4>${degree}</h4>
-                            <p>${institution} | <span class="year">${startDate} - ${endDate}</span></p>
-                            ${description ? `<p>${description.replace(/\n/g, '<br>')}</p>` : ''}
-                        </div>
-                    `;
-                });
-                
-                previewEducation.innerHTML = html || `
-                    <div class="timeline-item">
-                        <h4>Degree</h4>
-                        <p>Institution | <span class="year">Start Date - End Date</span></p>
-                        <p>Additional information about your education.</p>
-                    </div>
-                `;
-            }
-            
-            // Update skills preview
-            function updateSkillsPreview() {
-                let html = '';
-                document.querySelectorAll('.skill-item').forEach(item => {
-                    const skillName = item.querySelector('.skill-name').value || 'Skill Name';
-                    const skillLevel = item.querySelector('.skill-level').value || 3;
-                    const percentage = (skillLevel / 5) * 100;
-                    
-                    html += `
-                        <div class="row mb-2">
-                            <div class="col-4">${skillName}</div>
-                            <div class="col-8">
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: ${percentage}%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                previewSkills.innerHTML = html || `
-                    <div class="row">
-                        <div class="col-4">Skill Name</div>
-                        <div class="col-8">
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 80%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            // Initial updates
-            updateExperiencePreview();
-            updateEducationPreview();
-            updateSkillsPreview();
-            
-            // PDF Download functionality
-            const downloadPdfBtn = document.getElementById('download-pdf');
-            const previewPdfBtn = document.getElementById('preview-pdf');
-            const loadingOverlay = document.querySelector('.loading-overlay');
-            
-            downloadPdfBtn.addEventListener('click', function() {
-                // Show loading overlay
-                loadingOverlay.style.display = 'flex';
-                
-                // Get the CV preview element
-                const element = document.querySelector('.cv-preview');
-                
-                // Clone it to avoid modifying the original
-                const elementClone = element.cloneNode(true);
-                
-                // Adjust the clone for PDF output
-                elementClone.style.padding = '0';
-                elementClone.style.boxShadow = 'block';
-                
-                // Options for html2pdf
-                const opt = {
-                    margin: [10, 10, 10, 10],
-                    filename: 'Curriculum vitae.pdf',
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2, useCORS: true },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                };
-                
-                // Generate PDF
-                html2pdf().from(elementClone).set(opt).save().then(() => {
-                    // Hide loading overlay when done
-                    loadingOverlay.style.display = 'none';
-                });
-            });
-            
-            // Print preview functionality
-            previewPdfBtn.addEventListener('click', function() {
-                window.print();
-            });
         });
+        
+        // Handle payment method selection
+        $('.payment-method-btn').click(function() {
+            // In a real app, this would initiate the payment process
+            // For demo purposes, just show loading and then success
+            $('#loadingOverlay').show();
+            
+            // Simulate payment processing
+            setTimeout(function() {
+                $('#loadingOverlay').hide();
+                $('#paymentModal').modal('hide');
+                
+                // Update to premium user
+                activatePremiumFeatures();
+                
+                // Show success message
+                alert('Payment successful! You can now download your CV.');
+            }, 2000);
+        });
+        
+        // Verify promo code
+        $('#verify-code-btn').click(function() {
+            const code = $('#promo-code').val().trim();
+            
+            if (validPromoCodes.includes(code)) {
+                $('#loadingOverlay').show();
+                
+                // Simulate verification delay
+                setTimeout(function() {
+                    $('#loadingOverlay').hide();
+                    $('#paymentModal').modal('hide');
+                    
+                    // Update to premium user
+                    activatePremiumFeatures();
+                    
+                    // Show success message
+                    alert('Promo code verified! You can now download your CV.');
+                }, 1500);
+            } else {
+                alert('Invalid promo code. Please try again.');
+            }
+        });
+        
+        // Function to activate premium features
+        function activatePremiumFeatures() {
+            isPremiumUser = true;
+            $('body').addClass('premium-user');
+            $('#payment-banner').hide();
+            $('#download-prompt-btn').html('<i class="fas fa-download"></i> Download PDF');
+            $('#preview-watermark').hide();
+        }
+        
+        // Function to generate CV preview
+        function generateCVPreview() {
+            const $preview = $('#cv-preview');
+            $preview.empty();
+            
+            // Create header section
+            const $header = $('<div class="row mb-4"></div>');
+            
+            // Photo column
+            const $photoCol = $('<div class="col-md-3 text-center"></div>');
+            if ($('#profile-img').is(':visible')) {
+                $photoCol.append(`<img src="${$('#profile-img').attr('src')}" class="preview-photo" alt="Profile Photo">`);
+            } else {
+                $photoCol.append('<div class="preview-photo bg-light d-flex align-items-center justify-content-center"><i class="fas fa-user fa-3x text-secondary"></i></div>');
+            }
+            
+            // Contact info column
+            const $infoCol = $('<div class="col-md-9"></div>');
+            $infoCol.append(`<h2 class="mb-1">${$('#full-name').val() || 'Your Name'}</h2>`);
+            $infoCol.append(`<h4 class="text-muted mb-3">${$('#job-title').val() || 'Job Title'}</h4>`);
+            
+            // Personal details
+            const $details = $('<div class="row"></div>');
+            
+            const $contactCol = $('<div class="col-md-6"></div>');
+            if ($('#email').val()) {
+                $contactCol.append(`<p><i class="fas fa-envelope user-icon"></i>${$('#email').val()}</p>`);
+            }
+            if ($('#phone').val()) {
+                $contactCol.append(`<p><i class="fas fa-phone user-icon"></i>${$('#phone').val()}</p>`);
+            }
+            if ($('#address').val()) {
+                $contactCol.append(`<p><i class="fas fa-map-marker-alt user-icon"></i>${$('#address').val()}</p>`);
+            }
+            
+            const $personalCol = $('<div class="col-md-6"></div>');
+            if ($('#nationality').val()) {
+                $personalCol.append(`<p><i class="fas fa-flag user-icon"></i>Nationality: ${$('#nationality').val()}</p>`);
+            }
+            if ($('#gender').val()) {
+                $personalCol.append(`<p><i class="fas fa-user user-icon"></i>Gender: ${$('#gender').val()}</p>`);
+            }
+            
+            $details.append($contactCol, $personalCol);
+            $infoCol.append($details);
+            $header.append($photoCol, $infoCol);
+            $preview.append($header);
+            
+            // Experience section
+            if ($('#experience-container .dynamic-item').length > 0) {
+                const $expSection = $('<div class="mb-4"></div>');
+                $expSection.append('<h3 class="section-title">Work Experience</h3>');
+                
+                $('#experience-container .dynamic-item').each(function() {
+                    const $item = $(this);
+                    const $exp = $('<div class="mb-3"></div>');
+                    
+                    const company = $item.find('[name="company"]').val();
+                    const position = $item.find('[name="position"]').val();
+                    const startDate = formatDate($item.find('[name="start-date"]').val());
+                    
+                    let endDate = 'Present';
+                    if ($item.find('[name="current-job"]').is(':checked')) {
+                        endDate = 'Present';
+                    } else {
+                        endDate = formatDate($item.find('[name="end-date"]').val()) || 'Present';
+                    }
+                    
+                    const description = $item.find('[name="description"]').val();
+                    
+                    $exp.append(`<h5>${position || 'Position'} | ${company || 'Company'}</h5>`);
+                    $exp.append(`<p class="text-muted mb-2">${startDate} - ${endDate}</p>`);
+                    
+                    if (description) {
+                        const $list = $('<ul class="bullet-list"></ul>');
+                        const items = description.split('\n').filter(item => item.trim());
+                        items.forEach(item => {
+                            $list.append(`<li>${item}</li>`);
+                        });
+                        $exp.append($list);
+                    }
+                    
+                    $expSection.append($exp);
+                });
+                
+                $preview.append($expSection);
+            }
+            
+            // Education section
+            if ($('#education-container .dynamic-item').length > 0) {
+                const $eduSection = $('<div class="mb-4"></div>');
+                $eduSection.append('<h3 class="section-title">Education</h3>');
+                
+                $('#education-container .dynamic-item').each(function() {
+                    const $item = $(this);
+                    const $edu = $('<div class="mb-3"></div>');
+                    
+                    const institution = $item.find('[name="institution"]').val();
+                    let degree = $item.find('[name="education-level"]').val();
+                    if (degree === 'custom') {
+                        degree = $item.find('[name="custom-education"]').val();
+                    }
+                    const field = $item.find('[name="field"]').val();
+                    const startDate = formatDate($item.find('[name="edu-start-date"]').val());
+                    const endDate = formatDate($item.find('[name="graduation-date"]').val());
+                    const activities = $item.find('[name="edu-description"]').val();
+                    
+                    $edu.append(`<h5>${degree || 'Degree'} in ${field || 'Field of Study'}</h5>`);
+                    $edu.append(`<p>${institution || 'Institution'}</p>`);
+                    $edu.append(`<p class="text-muted mb-2">${startDate} - ${endDate || 'Present'}</p>`);
+                    
+                    if (activities) {
+                        const $list = $('<ul class="bullet-list"></ul>');
+                        const items = activities.split('\n').filter(item => item.trim());
+                        items.forEach(item => {
+                            $list.append(`<li>${item}</li>`);
+                        });
+                        $edu.append($list);
+                    }
+                    
+                    $eduSection.append($edu);
+                });
+                
+                $preview.append($eduSection);
+            }
+            
+            // Skills section
+            if ($('#skills-container .skill-item').length > 0) {
+                const $skillSection = $('<div class="mb-4"></div>');
+                $skillSection.append('<h3 class="section-title">Skills</h3>');
+                const $skillList = $('<div class="row"></div>');
+                
+                $('#skills-container .skill-item').each(function() {
+                    const $item = $(this);
+                    const skill = $item.find('[name="skill-name"]').val();
+                    const level = $item.find('[name="skill-level"]').val();
+                    
+                    if (skill) {
+                        const $skillCol = $('<div class="col-md-6 mb-2"></div>');
+                        $skillCol.append(`<div><strong>${skill}</strong>: ${level}</div>`);
+                        $skillList.append($skillCol);
+                    }
+                });
+                
+                $skillSection.append($skillList);
+                $preview.append($skillSection);
+            }
+            
+            // Languages section
+            if ($('#languages-container .language-item').length > 0) {
+                const $langSection = $('<div class="mb-4"></div>');
+                $langSection.append('<h3 class="section-title">Languages</h3>');
+                const $langList = $('<div class="row"></div>');
+                
+                $('#languages-container .language-item').each(function() {
+                    const $item = $(this);
+                    const language = $item.find('[name="language-name"]').val();
+                    const level = $item.find('[name="language-level"]').val();
+                    
+                    if (language) {
+                        const $langCol = $('<div class="col-md-6 mb-2"></div>');
+                        $langCol.append(`<div><strong>${language}</strong>: ${level}</div>`);
+                        $langList.append($langCol);
+                    }
+                });
+                
+                $langSection.append($langList);
+                $preview.append($langSection);
+            }
+            
+            // References section
+            if ($('#references-container .dynamic-item').length > 0) {
+                const $refSection = $('<div class="mb-4"></div>');
+                $refSection.append('<h3 class="section-title">References</h3>');
+                const $refRow = $('<div class="row"></div>');
+                
+                $('#references-container .dynamic-item').each(function() {
+                    const $item = $(this);
+                    const name = $item.find('[name="ref-name"]').val();
+                    const position = $item.find('[name="ref-position"]').val();
+                    const company = $item.find('[name="ref-company"]').val();
+                    const email = $item.find('[name="ref-email"]').val();
+                    const phone = $item.find('[name="ref-phone"]').val();
+                    const relation = $item.find('[name="ref-relation"]').val();
+                    
+                    const $refCol = $('<div class="col-md-6 mb-3"></div>');
+                    const $ref = $('<div class="border p-3 h-100"></div>');
+                    
+                    $ref.append(`<h5>${name || 'Reference Name'}</h5>`);
+                    if (position) $ref.append(`<p class="mb-1">${position}</p>`);
+                    if (company) $ref.append(`<p class="mb-1">${company}</p>`);
+                    if (relation) $ref.append(`<p class="mb-1">Relationship: ${relation}</p>`);
+                    if (email) $ref.append(`<p class="mb-1">Email: ${email}</p>`);
+                    if (phone) $ref.append(`<p class="mb-1">Phone: ${phone}</p>`);
+                    
+                    $refCol.append($ref);
+                    $refRow.append($refCol);
+                });
+                
+                $refSection.append($refRow);
+                $preview.append($refSection);
+            }
+            
+            // Declaration section
+            const declaration = $('#declaration').val();
+            if (declaration) {
+                const $declSection = $('<div class="mb-4"></div>');
+                $declSection.append('<h3 class="section-title">Declaration</h3>');
+                $declSection.append(`<p>${declaration}</p>`);
+                
+                if ($('#declaration-check').is(':checked')) {
+                    $declSection.append('<p class="font-italic">I confirm that all the information provided is accurate and true.</p>');
+                }
+                
+                $preview.append($declSection);
+            }
+        }
+        
+        // Function to generate PDF
+        function generatePDF() {
+            $('#loadingOverlay').show();
+            
+            // Remove watermark for PDF generation
+            $('#preview-watermark').hide();
+            
+            // Generate CV preview
+            generateCVPreview();
+            
+            // Configure HTML2PDF options
+            const element = document.getElementById('cv-preview');
+            const opt = {
+                margin: 10,
+                filename: 'my_cv.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            // Generate PDF
+            html2pdf().set(opt).from(element).save().then(function() {
+                $('#loadingOverlay').hide();
+                $('#preview-watermark').show();
+            });
+        }
+        
+        // Helper function to format dates
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            
+            const date = new Date(dateString);
+            const month = date.toLocaleString('default', { month: 'long' });
+            const year = date.getFullYear();
+            
+            return `${month} ${year}`;
+        }
+        
+        // Initialize print protection
+        function initPrintProtection() {
+            // Detect print attempts
+            window.addEventListener('beforeprint', function() {
+                if (!isPremiumUser) {
+                    alert('Please purchase the premium version to print or download your CV.');
+                }
+            });
+        }
+        
+        // Add initial items
+        $('#add-skill').click();
+        $('#add-language').click();
+        $('#add-experience').click();
+        $('#add-education').click();
+        $('#add-reference').click();
+    });
 
-
-
-
-
-    </script>
+</script>
 </body>
 </html>
